@@ -10,31 +10,42 @@ Open a Terminal in your project's folder and run,
 
 ```sh
 
-yarn add react-native-circular-carousel
-					or
-npm install --save react-native-circular-carousel
-
+git clone https://github.com/Waleed065/rn-circular-carousal.git
+					then run
+npm install
+or
+yarn
 ```
 
 ## Usage
 
 ```js
-
-import CircularCarousel from  'react-native-circular-carousel';
+import { SafeAreaView } from 'react-native';
+import CarouselItem from './components/CarouselItem';
+import CircularCarousel from './components/CircularCarousal';
 
 const dataSource = [
-  {name: 'Ahmed'},
-  {name: 'Ali'},
-  {name: 'Umar'},
-  {name: 'Bilal'}
-]
+  {name: 'Football'},
+  {name: 'Basket Ball'},
+  {name: 'Cricket'},
+  {name: 'Gym'},
+];
 
-<CircularCarousel
-	style={{ width: 350 }}
-	dataSource={dataSource}
-	renderItem={(data) => <CarouselItem data={data} />}
-	onItemPress={handleItemPress}
-/>;
+export default function App() {
+  const handleItemPress = () => {
+    return null
+  }
+  return (
+    <SafeAreaView>
+      <CircularCarousel
+        style={{ width: 350 }}
+        dataSource={dataSource}
+        renderItem={data => <CarouselItem data={data} />}
+        onItemPress={handleItemPress}
+      />
+    </SafeAreaView>
+  );
+}
 
 ```
 
