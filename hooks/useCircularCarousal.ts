@@ -1,18 +1,19 @@
-import { findIndex, maxBy } from 'lodash/fp';
-import { useEffect, useRef, useState } from 'react';
+import {findIndex, maxBy} from 'lodash/fp';
+import {useEffect, useRef, useState} from 'react';
 import {
   GestureResponderEvent,
   PanResponder,
   PanResponderCallbacks,
   PanResponderGestureState,
-  PanResponderInstance, StyleProp,
-  ViewStyle
+  PanResponderInstance,
+  StyleProp,
+  ViewStyle,
 } from 'react-native';
-import { CarouselItemData, yMarginType } from '../types';
+import {CarouselItemData, yMarginType} from '../types';
 import {
   arrangeItemsInCircle,
   getStyles,
-  initializeCarouselItems
+  initializeCarouselItems,
 } from '../utils';
 
 const DURATION = 1;
@@ -23,11 +24,8 @@ interface schema {
   radius?: number;
   dataSource: any[];
 
-  style?: StyleProp<ViewStyle>;
-  itemStyle?: {
-    height?: number;
-    width?: number;
-  };
+  style?: ViewStyle;
+  itemStyle?: StyleProp<any>;
 }
 
 export default function useCircularCarousal({
@@ -37,15 +35,15 @@ export default function useCircularCarousal({
   style,
   itemStyle,
 }: schema) {
-  const {style: newStyle, itemStyle: newItemStyle} = getStyles({
+  const {wH, itemWH} = getStyles({
     style,
     itemStyle,
   });
 
   const initialItems: CarouselItemData[] = initializeCarouselItems(
     radius,
-    newStyle.width,
-    newItemStyle,
+    wH.width,
+    itemWH,
     dataSource,
   );
   const [items, setItems] = useState<CarouselItemData[]>(initialItems);
@@ -140,8 +138,8 @@ export default function useCircularCarousal({
       frontItemIdx,
       angle,
       radius,
-      newStyle.width,
-      newItemStyle,
+      wH.width,
+      itemWH,
       yM,
       prevItems,
     );

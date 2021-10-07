@@ -1,4 +1,4 @@
-import { StyleProp, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from 'react-native';
 
 export type DropAreaLayout = {
   x: number;
@@ -28,11 +28,8 @@ export type CarouselItemData = {
 
 export type CircularCarouselProps = {
   dataSource: any[];
-  style?: StyleProp<ViewStyle>;
-  itemStyle?: {
-    height?: number;
-    width?: number;
-  };
+  style?: ViewStyle;
+  itemStyle?: StyleProp<any>;
   radius?: number;
   dropAreaLayout?: DropAreaLayout;
   renderItem: (data: any) => JSX.Element;

@@ -7,7 +7,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     width,
     height,
-    // alignItems: 'center',
     overflow: 'hidden',
 
     borderWidth: 2,

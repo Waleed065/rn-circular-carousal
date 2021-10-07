@@ -5,7 +5,7 @@ import some from 'lodash/fp/some';
 import inRange from 'lodash/inRange';
 import isEqual from 'lodash/isEqual';
 import times from 'lodash/times';
-import { Dimensions } from 'react-native';
+import { Dimensions, StyleProp, ViewStyle } from 'react-native';
 // src
 import { CarouselItemData } from '../types';
 
@@ -32,21 +32,30 @@ export const hasPropChanged = (
 const ELEVATION_CONSTANT = Math.cos(Math.PI / 2.3);
 
 type GetStylesProps = {
-  style?: any;
-  itemStyle?: any;
+  style?: ViewStyle;
+  itemStyle?: StyleProp<any>;
 };
 
 type GetStylesReturnType = {
-  style: {width: number; height: number};
-  itemStyle: {width: number; height: number};
+  wH: {width: number; height: number};
+  itemWH: {width: number; height: number};
 };
 
 export function getStyles(props: GetStylesProps): GetStylesReturnType {
-  const {style = {}, itemStyle = {}} = props;
+  const {
+    style: {width: styleWidth = 350, height: styleHeight = 200} = {},
+    itemStyle: {width: itemStyleWidth = 110, height: itemStyleHeight = 120} = {},
+  } = props;
 
   return {
-    style: {width: 350, height: 200, ...style},
-    itemStyle: {width: 110, height: 120, ...itemStyle},
+    wH: {
+      width: parseInt(String(styleWidth)),
+      height: parseInt(String(styleHeight)),
+    },
+    itemWH: {
+      width: parseInt(String(itemStyleWidth)),
+      height: parseInt(String(itemStyleHeight)),
+    },
   };
 }
 
@@ -58,7 +67,7 @@ function calculateItemsPositions(
 ): (items: CarouselItemData[]) => CarouselItemData[] {
   return (items: CarouselItemData[]) => {
     return items.map(({index: __index__, ...item}: CarouselItemData) => {
-      const index = __index__ || 0;
+      const index = __index__ ?? 0;
       const q = ((index * 360) / size(items) + angle) % 360;
       const alpha = q * (Math.PI / 180);
       const sinalpha = Math.sin(alpha);
@@ -77,7 +86,7 @@ export function getItemScalingCoefficient(
 ): number {
   const {min, max} = yMargins;
   let d = (max - min) * 9;
-  const {Y = 0} = item || {};
+  const {Y = 0} = item ?? {};
 
   if (d === 0) {
     d = 1;
@@ -101,7 +110,7 @@ function rearrangeItemsDimensions(
       const coefficient = getItemScalingCoefficient(yMargins, item);
       const newWidth = width * coefficient;
       const diff = width - newWidth;
-      const x = item.X || 0;
+      const x = item.X ?? 0;
 
       return {
         ...item,
@@ -194,32 +203,32 @@ export const isCollidingWithDropArea = (
   const my1 =
     gesture.moveY > gesture.y0 ? gesture.moveY + dy1 : gesture.moveY - dy1;
 
-  console.log(
-    'droplayout area',
-    dAX0,
-    dAX1,
-    dAY0,
-    dAY1,
-    dropAreaLayout.width,
-    dropAreaLayout.height,
-  );
+  // console.log(
+  //   'droplayout area',
+  //   dAX0,
+  //   dAX1,
+  //   dAY0,
+  //   dAY1,
+  //   dropAreaLayout.width,
+  //   dropAreaLayout.height,
+  // );
   // console.log('item layout ', screenWidth, screenHeight);
   // console.log('draggable', x0, x1, y0, y1);
   // console.log('gesture', gesture.x0, gesture.y0, gesture.moveX, gesture.moveY);
   // console.log('distance', dx0, dx1, dy0, dy1);
-  console.log('move', mx0, mx1, my0, my1);
+  // console.log('move', mx0, mx1, my0, my1);
 
   // console.log('x0=>', mx0, item);
   // console.log('x1=>', mx1, dAX0, dAX1);
-  console.log('new ', gesture.moveX - (dx0 - x0));
-  console.log(
-    'x positions',
-    inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1),
-  );
-  console.log(
-    'y positions ',
-    inRange(my0, dAY0, dAY1) || inRange(my1, dAY0, dAY1),
-  );
+  // console.log('new ', gesture.moveX - (dx0 - x0));
+  // console.log(
+  //   'x positions',
+  //   inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1),
+  // );
+  // console.log(
+  //   'y positions ',
+  //   inRange(my0, dAY0, dAY1) || inRange(my1, dAY0, dAY1),
+  // );
 
   return (
     (inRange(mx0, dAX0, dAX1) || inRange(mx1, dAX0, dAX1)) &&
