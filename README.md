@@ -72,3 +72,4 @@ export default function App() {
 - [Shamshad Khan](https://github.com/khanshamshad32)
 - [Umar Ashfaq](https://github.com/umarashfaq)
 - [Asad Ullah](https://github.com/asadUllah58) for creating a beautiful demo
+- [Waleed Tariq](https://github.com/Waleed065)
