@@ -11,9 +11,13 @@ Open a Terminal in your project's folder and run,
 ```sh
 
 git clone https://github.com/Waleed065/rn-circular-carousal.git
-					then run
+
+Then run
+
 npm install
+
 or
+
 yarn
 ```
 
