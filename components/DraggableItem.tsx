@@ -15,7 +15,7 @@ interface schema {
   dropAreaLayout?: DropAreaLayout;
   onDrop: () => void;
   onPress?: () => void;
-  setDraggingState: (isDragging: boolean) => void;
+  setIsDragging: (isDragging: boolean) => void;
   setItemCollision: any;
 
   children: JSX.Element;
@@ -26,7 +26,7 @@ export default function DraggableItem({
   dropAreaLayout,
   onPress,
   onDrop,
-  setDraggingState,
+  setIsDragging,
   children,
 }: schema) {
   const panResponder = useRef<PanResponderInstance | null>(null);
@@ -52,7 +52,7 @@ export default function DraggableItem({
         const {moveY, y0} = gesture;
 
         if (moveY - y0 > 20) {
-          setDraggingState(true);
+          setIsDragging(true);
 
           if (setItemCollision) {
             setItemCollision(
@@ -84,7 +84,7 @@ export default function DraggableItem({
         ) {
           onDrop();
         }
-        setDraggingState(false);
+        setIsDragging(false);
         Animated.spring(panRef, {
           toValue: {x: 0, y: 0},
           friction: 5,

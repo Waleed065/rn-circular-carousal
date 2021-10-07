@@ -7,7 +7,6 @@ import styles from '../styles/CircularCarousal';
 import { CircularCarouselProps } from '../types';
 import CarouselItemWrapper from './CarouselItemWrapper';
 
-
 export default function CircularCarousel({
   radius,
   dataSource,
@@ -24,8 +23,7 @@ export default function CircularCarousel({
   const {items, frontItemIndex, panHandlersRef, rotateCarousel} =
     useCircularCarousal({radius, dataSource, style, itemStyle});
 
-  const handleItemPress = useCallback((index: number): void => {
-    console.log('Pressed');
+  const handleMemoizedItemPress = useCallback((index: number): void => {
     if (index === frontItemIndex && onItemPress) {
       onItemPress(index);
       return;
@@ -34,10 +32,18 @@ export default function CircularCarousel({
     rotateCarousel(index);
   }, []);
 
-  const panHandlers = isDragging ? {} : panHandlersRef;
+  const onMemoizedItemDrop = useCallback((index: number) => {
+    onItemDrop?.(index);
+  }, []);
+
+  // const renderMemoizedItem = useCallback((...data: any) => {
+  //   return renderItem(data);
+  // }, [items]);
 
   return (
-    <View style={[styles.containerStyle, style]} {...panHandlers}>
+    <View
+      style={[styles.containerStyle, style]}
+      {...(!isDragging && panHandlersRef)}>
       {items.map(({data, ...item}, index) => (
         <CarouselItemWrapper
           key={index}
@@ -51,10 +57,10 @@ export default function CircularCarousel({
           index={index}
           dropAreaLayout={dropAreaLayout}
           renderItem={renderItem}
-          handleItemPress={handleItemPress}
-          onItemDrop={() => onItemDrop?.(index)}
+          handleItemPress={handleMemoizedItemPress}
+          onItemDrop={onMemoizedItemDrop}
           // onItemLayoutChange={this.handleItemLayoutChange}
-          setItemDraggingState={setIsDragging}
+          setIsDragging={setIsDragging}
           setItemCollision={setItemCollision}
         />
       ))}

@@ -10,11 +10,11 @@ type schema = {
   item: CarouselItemData;
   data: any;
   dropAreaLayout?: DropAreaLayout;
-  renderItem: (arg1: any, arg2: any) => JSX.Element;
+  renderItem: (...arg: any) => JSX.Element;
   handleItemPress: (idx: number) => void;
-  onItemDrop: () => void;
+  onItemDrop?: (idx: number) => void;
   onItemLayoutChange?: (event: any) => void;
-  setItemDraggingState: (isDragging: boolean) => void;
+  setIsDragging: (isDragging: boolean) => void;
   setItemCollision?: (isColliding: boolean) => void;
   index: number;
 };
@@ -33,13 +33,16 @@ function CarouselItemWrapper({
   handleItemPress,
   onItemDrop,
   onItemLayoutChange,
-  setItemDraggingState,
+  setIsDragging,
   setItemCollision,
   index,
 }: schema) {
   const onPress = () => {
     handleItemPress(index);
   };
+  const onDrop = () => {
+    onItemDrop?.(index)
+  }
 
   const CarouselItemView = useMemo(
     () =>
@@ -49,8 +52,8 @@ function CarouselItemWrapper({
           item={item}
           dropAreaLayout={dropAreaLayout}
           onPress={onPress}
-          onDrop={onItemDrop}
-          setDraggingState={setItemDraggingState}
+          onDrop={onDrop}
+          setIsDragging={setIsDragging}
           setItemCollision={setItemCollision}>
           {renderItem(data, onItemLayoutChange)}
         </DraggableItem>

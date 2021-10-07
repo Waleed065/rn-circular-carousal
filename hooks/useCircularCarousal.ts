@@ -5,8 +5,8 @@ import {
   PanResponder,
   PanResponderCallbacks,
   PanResponderGestureState,
-  PanResponderInstance,
-  Platform
+  PanResponderInstance, StyleProp,
+  ViewStyle
 } from 'react-native';
 import { CarouselItemData, yMarginType } from '../types';
 import {
@@ -15,10 +15,7 @@ import {
   initializeCarouselItems
 } from '../utils';
 
-const DURATION = Platform.select({
-  ios: 1,
-  android: 0,
-});
+const DURATION = 1;
 const ROTATION_RATE = 5;
 const PAN_ROTATION_RATE = 1;
 
@@ -26,10 +23,7 @@ interface schema {
   radius?: number;
   dataSource: any[];
 
-  style?: {
-    height?: number;
-    width?: number;
-  };
+  style?: StyleProp<ViewStyle>;
   itemStyle?: {
     height?: number;
     width?: number;
@@ -106,33 +100,33 @@ export default function useCircularCarousal({
     addPanGesture();
   }, []);
 
-  const isMounted = useRef(false);
-  useEffect(() => {
-    if (!isMounted.current) {
-      isMounted.current = true;
-      return;
-    }
+  // const isMounted = useRef(false);
+  // useEffect(() => {
+  //   if (!isMounted.current) {
+  //     isMounted.current = true;
+  //     return;
+  //   }
 
-    if (dataSource.length < 1) {
-      setItems([]);
-    }
-    // else if (hasPropChanged('dataSource', props, nextProps)) {
+  //   if (dataSource.length < 1) {
+  //     setItems([]);
+  //   }
+  //   // else if (hasPropChanged('dataSource', props, nextProps)) {
 
-    // const newStyle = getStyles({style, itemStyle});
-    const items: CarouselItemData[] = initializeCarouselItems(
-      radius,
-      newStyle.width,
-      newItemStyle,
-      dataSource,
-    );
-    const yMargins = {
-      min: items[items.length - 1].Y ?? 0,
-      max: items[0].Y ?? 0,
-    };
+  //   // const newStyle = getStyles({style, itemStyle});
+  //   const items: CarouselItemData[] = initializeCarouselItems(
+  //     radius,
+  //     newStyle.width,
+  //     newItemStyle,
+  //     dataSource,
+  //   );
+  //   const yMargins = {
+  //     min: items[items.length - 1].Y ?? 0,
+  //     max: items[0].Y ?? 0,
+  //   };
 
-    arrangeItems(0, 0, yMargins, items);
-    // }
-  }, []);
+  //   arrangeItems(0, 0, yMargins, items);
+  //   // }
+  // }, [props]);
 
   const arrangeItems = (
     angle: number,

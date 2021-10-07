@@ -17,7 +17,7 @@ export default function App() {
   return (
     <SafeAreaView>
       <CircularCarousel
-        style={{ width: 350 }}
+        style={{ width: 355 }}
         dataSource={dataSource}
         renderItem={data => <CarouselItem data={data} />}
         onItemPress={handleItemPress} 
